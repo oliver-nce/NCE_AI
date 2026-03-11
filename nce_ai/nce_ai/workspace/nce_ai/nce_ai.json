@@ -1,0 +1,47 @@
+{
+ "charts": [],
+ "content": "[{\"id\":\"heading\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>NCE AI</b></span>\",\"col\":12}},{\"id\":\"shortcuts\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"AI Provider\",\"col\":4}}]",
+ "creation": "2026-03-11 00:00:00.000000",
+ "custom_blocks": [],
+ "doctype": "Workspace",
+ "for_user": "",
+ "hide_custom": 0,
+ "icon": "robot",
+ "idx": 0,
+ "is_hidden": 0,
+ "label": "NCE AI",
+ "links": [
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "AI Provider",
+   "link_count": 0,
+   "link_to": "AI Provider",
+   "link_type": "DocType",
+   "onboard": 1,
+   "type": "Link"
+  }
+ ],
+ "modified": "2026-03-11 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "NCE AI",
+ "name": "NCE AI",
+ "number_cards": [],
+ "owner": "Administrator",
+ "parent_page": "",
+ "public": 1,
+ "restrict_to_domain": "",
+ "roles": [],
+ "sequence_id": 100,
+ "shortcuts": [
+  {
+   "color": "Blue",
+   "doc_view": "List",
+   "label": "AI Provider",
+   "link_to": "AI Provider",
+   "type": "DocType"
+  }
+ ],
+ "show_title": 0,
+ "title": "NCE AI"
+}
