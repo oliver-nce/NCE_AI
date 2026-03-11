@@ -1,0 +1,97 @@
+{
+ "actions": [],
+ "creation": "2026-03-11 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "model_name",
+  "model_id",
+  "enabled",
+  "column_break_costs",
+  "input_token_cost",
+  "output_token_cost",
+  "section_break_limits",
+  "context_window",
+  "max_output_tokens",
+  "column_break_notes",
+  "notes"
+ ],
+ "fields": [
+  {
+   "fieldname": "model_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Model Name",
+   "reqd": 1
+  },
+  {
+   "fieldname": "model_id",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Model ID",
+   "description": "API model identifier if different from display name"
+  },
+  {
+   "default": "1",
+   "fieldname": "enabled",
+   "fieldtype": "Check",
+   "in_list_view": 1,
+   "label": "Enabled"
+  },
+  {
+   "fieldname": "column_break_costs",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "input_token_cost",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Input Cost / 1M Tokens",
+   "precision": "4"
+  },
+  {
+   "fieldname": "output_token_cost",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Output Cost / 1M Tokens",
+   "precision": "4"
+  },
+  {
+   "fieldname": "section_break_limits",
+   "fieldtype": "Section Break",
+   "label": "Limits & Notes"
+  },
+  {
+   "fieldname": "context_window",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Context Window (tokens)"
+  },
+  {
+   "fieldname": "max_output_tokens",
+   "fieldtype": "Int",
+   "label": "Max Output Tokens"
+  },
+  {
+   "fieldname": "column_break_notes",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "notes",
+   "fieldtype": "Small Text",
+   "label": "Notes"
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "istable": 1,
+ "links": [],
+ "modified": "2026-03-11 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "NCE AI",
+ "name": "AI Provider Model",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": []
+}
