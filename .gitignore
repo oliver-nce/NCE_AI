@@ -6,3 +6,17 @@ tags
 node_modules
 __pycache__
 template/
+
+# Cursor / local editor (symlinked or machine-specific)
+.cursor/
+.rules
+
+# Frappe reference docs live outside this repo (e.g. symlink); do not commit copies
+Frappe Context/
+
+# Generated or tooling indexes (not application source)
+nce_ai/CODE_INDEX.json
+
+# Large re-exports of framework docs — source of truth is Frappe Context / docs site
+Docs/*.jsonl
+Docs/_manifest.json
