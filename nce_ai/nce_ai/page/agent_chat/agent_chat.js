@@ -9,10 +9,22 @@ frappe.pages["agent-chat"].on_page_load = function (wrapper) {
 	$main.empty();
 
 	const messages = [];
+	let newChatSession = true;
 
-	const $thread = $(`<div class="nce-agent-chat-thread" style="display:flex;flex-direction:column;gap:12px;padding:8px 0 16px;max-height:calc(100vh - 220px);overflow-y:auto;"></div>`);
+	const $thread = $(`<div class="nce-agent-chat-thread" style="display:flex;flex-direction:column;gap:12px;padding:8px 0 16px;max-height:calc(100vh - 320px);overflow-y:auto;"></div>`);
 	const $inputRow = $(`
 		<div class="nce-agent-chat-input form-group" style="margin-top:8px;">
+			<details class="nce-agent-chat-context" style="margin-bottom:12px;">
+				<summary style="cursor:pointer;font-weight:500;">${__("Reference documents (optional)")}</summary>
+				<p class="text-muted small" style="margin:6px 0 0;">${__(
+					"Context is sent every turn. Prompt injections apply only on the first message after you open or clear the chat, while the document stays selected."
+				)}</p>
+				<div class="nce-agent-chat-context-inner" style="margin-top:8px;padding:8px;border:1px solid var(--border-color);border-radius:6px;max-height:200px;overflow-y:auto;"></div>
+				<div style="margin-top:6px;display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
+					<button type="button" class="btn btn-default btn-xs nce-agent-chat-ctx-refresh">${__("Refresh list")}</button>
+					<button type="button" class="btn btn-default btn-xs nce-agent-chat-ctx-open-list">${__("Open list")}</button>
+				</div>
+			</details>
 			<label class="control-label">${__("Your message")}</label>
 			<textarea class="form-control nce-agent-chat-textarea" rows="3" placeholder="${__("Describe a task; the agent may ask clarifying questions.")}"></textarea>
 			<div style="margin-top:8px;display:flex;gap:8px;flex-wrap:wrap;">
@@ -26,6 +38,66 @@ frappe.pages["agent-chat"].on_page_load = function (wrapper) {
 	$main.append($inputRow);
 
 	const $ta = $inputRow.find(".nce-agent-chat-textarea");
+	const $ctxInner = $inputRow.find(".nce-agent-chat-context-inner");
+
+	function getSelectedContextNames() {
+		const names = [];
+		$ctxInner.find(".nce-ctx-doc:checked").each(function () {
+			const n = $(this).attr("data-name");
+			if (n) names.push(n);
+		});
+		return names;
+	}
+
+	async function loadContextList() {
+		const preserve = new Set(getSelectedContextNames());
+		$ctxInner.empty().append(`<p class="text-muted small">${__("Loading…")}</p>`);
+		try {
+			const r = await frappe.call({
+				method: "nce_ai.api.agent_chat.list_context_documents",
+			});
+			const rows = r.message || [];
+			$ctxInner.empty();
+			if (!rows.length) {
+				$ctxInner.append(
+					`<p class="text-muted small">${__("No AI Context Documents yet. Create one from the list.")}</p>`
+				);
+				return;
+			}
+			for (const row of rows) {
+				const name = row.name;
+				const title = row.title || name;
+				const tags = [];
+				if (row.has_context) tags.push(__("context"));
+				if (row.has_prompt_injections) tags.push(__("prompt injection"));
+				const tagStr = tags.length ? ` (${tags.join(", ")})` : "";
+				const $row = $(`<div class="checkbox" style="margin:4px 0;"></div>`);
+				const $label = $(`<label style="margin:0;font-weight:normal;"></label>`).appendTo($row);
+				$("<input>", {
+					type: "checkbox",
+					class: "nce-ctx-doc",
+					"data-name": name,
+					checked: !!preserve.has(name),
+				}).appendTo($label);
+				$label.append(document.createTextNode(` ${title}`));
+				if (tagStr) {
+					$label.append(
+						$("<span>").addClass("text-muted").css({ "font-size": "11px" }).text(tagStr)
+					);
+				}
+				$ctxInner.append($row);
+			}
+		} catch {
+			$ctxInner.empty().append(`<p class="text-danger small">${__("Could not load context documents.")}</p>`);
+		}
+	}
+
+	$inputRow.find(".nce-agent-chat-ctx-refresh").on("click", () => loadContextList());
+	$inputRow.find(".nce-agent-chat-ctx-open-list").on("click", () => {
+		frappe.set_route("List", "AI Context Document");
+	});
+
+	loadContextList();
 
 	function append_bubble(role, text) {
 		const align = role === "user" ? "flex-end" : "flex-start";
@@ -49,6 +121,7 @@ frappe.pages["agent-chat"].on_page_load = function (wrapper) {
 	function set_busy(busy) {
 		$inputRow.find("button").prop("disabled", busy);
 		$ta.prop("disabled", busy);
+		$ctxInner.find("input").prop("disabled", busy);
 	}
 
 	async function send() {
@@ -63,10 +136,15 @@ frappe.pages["agent-chat"].on_page_load = function (wrapper) {
 		$ta.val("");
 
 		set_busy(true);
+		const sendAsNewChat = newChatSession;
 		try {
 			const r = await frappe.call({
 				method: "nce_ai.api.agent_chat.send_agent_message",
-				args: { messages: JSON.stringify(messages) },
+				args: {
+					messages: JSON.stringify(messages),
+					context_doc_names: JSON.stringify(getSelectedContextNames()),
+					new_chat_session: sendAsNewChat ? 1 : 0,
+				},
 			});
 			const assistant = r.message?.message;
 			if (!assistant) {
@@ -74,6 +152,7 @@ frappe.pages["agent-chat"].on_page_load = function (wrapper) {
 				messages.pop();
 				return;
 			}
+			newChatSession = false;
 			messages.push({ role: "assistant", content: assistant });
 			append_bubble("assistant", assistant);
 		} catch (e) {
@@ -98,6 +177,7 @@ frappe.pages["agent-chat"].on_page_load = function (wrapper) {
 	$inputRow.find(".nce-agent-chat-send").on("click", () => send());
 	$inputRow.find(".nce-agent-chat-clear").on("click", () => {
 		messages.length = 0;
+		newChatSession = true;
 		$thread.empty();
 		$ta.val("");
 		$ta.focus();

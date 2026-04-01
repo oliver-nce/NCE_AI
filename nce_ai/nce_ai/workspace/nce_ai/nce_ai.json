@@ -1,6 +1,6 @@
 {
  "charts": [],
- "content": "[{\"id\":\"heading\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>NCE AI</b></span>\",\"col\":12}},{\"id\":\"shortcuts\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"AI Provider\",\"col\":4}},{\"id\":\"shortcuts_agent\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Agent Chat\",\"col\":4}}]",
+ "content": "[{\"id\":\"heading\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>NCE AI</b></span>\",\"col\":12}},{\"id\":\"shortcuts\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"AI Provider\",\"col\":4}},{\"id\":\"shortcuts_agent\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Agent Chat\",\"col\":4}},{\"id\":\"shortcuts_ctx\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"AI Context Document\",\"col\":4}}]",
  "creation": "2026-03-11 00:00:00.000000",
  "custom_blocks": [],
  "doctype": "Workspace",
@@ -30,6 +30,16 @@
    "link_type": "Page",
    "onboard": 0,
    "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "AI Context Document",
+   "link_count": 0,
+   "link_to": "AI Context Document",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
   }
  ],
  "modified": "2026-03-11 00:00:00.000000",
@@ -57,6 +67,13 @@
    "label": "Agent Chat",
    "link_to": "agent-chat",
    "type": "Page"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "AI Context Document",
+   "link_to": "AI Context Document",
+   "type": "DocType"
   }
  ],
  "show_title": 0,
