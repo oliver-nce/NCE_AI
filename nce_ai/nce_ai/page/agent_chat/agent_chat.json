@@ -1,0 +1,21 @@
+{
+ "creation": "2026-04-01 00:00:00.000000",
+ "docstatus": 0,
+ "doctype": "Page",
+ "icon": "chat",
+ "idx": 0,
+ "module": "NCE AI",
+ "name": "agent-chat",
+ "page_name": "agent-chat",
+ "roles": [
+  {
+   "role": "Desk User"
+  },
+  {
+   "role": "System Manager"
+  }
+ ],
+ "standard": "Yes",
+ "system_page": 0,
+ "title": "Agent Chat"
+}

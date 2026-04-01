@@ -1,6 +1,6 @@
 {
  "charts": [],
- "content": "[{\"id\":\"heading\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>NCE AI</b></span>\",\"col\":12}},{\"id\":\"shortcuts\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"AI Provider\",\"col\":4}}]",
+ "content": "[{\"id\":\"heading\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>NCE AI</b></span>\",\"col\":12}},{\"id\":\"shortcuts\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"AI Provider\",\"col\":4}},{\"id\":\"shortcuts_agent\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Agent Chat\",\"col\":4}}]",
  "creation": "2026-03-11 00:00:00.000000",
  "custom_blocks": [],
  "doctype": "Workspace",
@@ -19,6 +19,16 @@
    "link_to": "AI Provider",
    "link_type": "DocType",
    "onboard": 1,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Agent Chat",
+   "link_count": 0,
+   "link_to": "agent-chat",
+   "link_type": "Page",
+   "onboard": 0,
    "type": "Link"
   }
  ],
@@ -40,6 +50,13 @@
    "label": "AI Provider",
    "link_to": "AI Provider",
    "type": "DocType"
+  },
+  {
+   "color": "Green",
+   "doc_view": "",
+   "label": "Agent Chat",
+   "link_to": "agent-chat",
+   "type": "Page"
   }
  ],
  "show_title": 0,
